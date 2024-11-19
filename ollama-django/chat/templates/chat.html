@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmConnect</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        #header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            border-bottom: 1px solid #0056b3;
+        }
+        #chat-history {
+            flex: 1;
+            padding: 15px;
+            background-color: #fafafa;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .message.user {
+            background-color: #e1ffc7;
+            align-self: flex-end;
+        }
+        .message.ai {
+            background-color: #f1f0f0;
+            align-self: flex-start;
+        }
+        #chat-form {
+            display: flex;
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        #send-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+        #chat-with-therapist {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        #chat-with-therapist:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $("#chat-form").submit(function (event) {
+          event.preventDefault();
+          var userInput = $("#user-input").val();
+          $("#user-input").val("");
+          $("#chat-history").append(
+            "<div class='message user'><strong>User:</strong><p>" + userInput + "</p></div>"
+          );
+          var aiResponseElement = $("<div class='message ai'><strong>AI:</strong><p></p></div>");
+          $("#chat-history").append(aiResponseElement);
+          $.ajax({
+            type: "POST",
+            url: "/chat/",
+            data: { user_input: userInput },
+            xhrFields: {
+              onprogress: function (xhr) {
+                var response = xhr.target.responseText;
+                aiResponseElement.find('p').html(response);
+              },
+            },
+          });
+        });
+      });
+    </script>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="header">
+            Hi, I'm CalmConnect - Your AI Therapist, Specializing in Cognitive Behavior Therapy (CBT)<br>
+            I am here to listen to your struggles.<br>
+            How Do you Feel today?
+        </div>
+        <div id="chat-history"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" name="user_input" required placeholder="Type a message..." />
+            <button type="submit" id="send-button">Send</button>
+        </form>
+    </div>
+    <button id="chat-with-therapist">Chat with a Therapist</button>
+</body>
+</html>
+
+
+
+
