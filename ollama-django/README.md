@@ -15,7 +15,7 @@ This Django project showcases the power of building local AI-powered chat applic
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/scoutapp/ollama-django
+   git clone https://github.com/rillhancho/Therapy-Chatbot
    cd your-repo-name
 
 2. **Start Ollama: (If you haven't already)**
