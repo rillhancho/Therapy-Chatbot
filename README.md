@@ -1,4 +1,4 @@
-Django Ollama Chat App
+*Django Ollama Chat App*
 This Django project showcases the power of building local AI-powered chat applications using the Ollama library and Meta's Llama 3 model
 
 Accompanying post with additional info here
